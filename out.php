@@ -6,10 +6,11 @@
  * You might want to do it differently if you send SMS to non-US/CAN locations.
  */
 
-$logfile = '/tmp/sms.log'; // all SMSes and errors will be logged here for debugging purposes
+$logfile = '/var/log/httpd/sms.log'; // all SMSes and errors will be logged here for debugging purposes
 
 // Record the message
 $postdata = file_get_contents("php://input");
+
 $fh = fopen($logfile, "a");
 fwrite($fh, date(DATE_W3C) . " - Received SMS from PBX: to " . $_GET["to"] . ", from " . $_GET["from"] . "\n");
 fwrite($fh, "$postdata\n\n");
@@ -40,5 +41,3 @@ $httpresult = file_get_contents($telnyxUrl, false, $httpcontext);
 
 // Respond to Asterisk
 echo $httpresult;
-
-?>
